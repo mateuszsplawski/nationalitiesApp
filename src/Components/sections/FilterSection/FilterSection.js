@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
+import { connect } from "react-redux";
 
 const StyledWrapper = styled.section`
   margin: 50px;
@@ -49,24 +50,28 @@ const Select = styled.select`
 `;
 
 const FilterSection = ({
-  nationsRegions,
-  regionSearchHandler,
-  searchValue
+  regions,
+  setFilterValue,
+  filterValue,
+  setRegions,
+  countries
 }) => {
-  const subregion = nationsRegions;
-
+  useEffect(() => {
+    setRegions(countries);
+  }, [countries]);
   return (
     <>
       <StyledWrapper>
         <label>
           Wybierz region
-          <Select value={searchValue} onChange={regionSearchHandler}>
+          <Select value={filterValue} onChange={setFilterValue}>
             <option value={"All"}>All</option>
-            {[...subregion].map((subregion, id) => (
-              <option value={subregion} key={id}>
-                {subregion}
-              </option>
-            ))}
+            {regions &&
+              [...regions].map((subregion, id) => (
+                <option value={subregion} key={id}>
+                  {subregion}
+                </option>
+              ))}
           </Select>
         </label>{" "}
       </StyledWrapper>{" "}
@@ -74,4 +79,34 @@ const FilterSection = ({
   );
 };
 
-export default FilterSection;
+const mapStateToProps = state => {
+  return {
+    filterValue: state.filterValue,
+    regions: state.regions,
+    countries: state.countries
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    setFilterValue: e => {
+      dispatch({
+        type: "SET_FILTER_VALUE",
+        value: e.target.value
+      });
+    },
+    setRegions: countries => {
+      const data =
+        countries &&
+        new Set(
+          countries
+            .map(country => country.region)
+            .filter(country => country !== "")
+        );
+      dispatch({ type: "SET_REGIONS", data: data });
+      console.log(data);
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(FilterSection);

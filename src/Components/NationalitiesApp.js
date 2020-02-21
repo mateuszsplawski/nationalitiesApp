@@ -14,48 +14,26 @@ const StyledWrapper = styled.main`
   background-color: whitesmoke;
 `;
 
-const NationalitiesApp = ({ countries, fetchData }) => {
-  const [nationsArray, setNationsArray] = useState([]);
-  const [searchValue, setSearchValue] = useState("");
-  const [filteredNationsArray, setFilteredNationsArray] = useState([]);
-  const nationsRegions = new Set(
-    nationsArray.map(nation => nation.region).filter(nation => nation !== "")
-  );
-
-  const regionSearchHandler = e => {
-    setSearchValue(e.target.value);
-  };
+const NationalitiesApp = ({
+  countries,
+  fetchData,
+  filterValue,
+  filterNations,
+  regions
+}) => {
+  useEffect(() => {
+    filterNations(filterValue, countries);
+  }, [filterValue, regions]);
 
   useEffect(() => {
-    if (searchValue === "All") {
-      setFilteredNationsArray(nationsArray);
-    } else {
-      setFilteredNationsArray(
-        nationsArray.filter(nation => nation.region === searchValue)
-      );
-    }
-  }, [searchValue]);
-
-  useEffect(() => {
-    const API = "https://restcountries.eu/rest/v2/all";
-    fetch(API)
-      .then(response => response.json())
-      .then(data =>
-        setNationsArray([...data], setFilteredNationsArray([...data]))
-      )
-      .catch(err => console.log(err));
+    fetchData();
   }, []);
 
   return (
     <>
       <StyledWrapper>
-        <FilterSection
-          nations={nationsArray}
-          nationsRegions={nationsRegions}
-          regionSearchHandler={regionSearchHandler}
-          searchValue={searchValue}
-        />
-        <DisplaySection nations={filteredNationsArray} />
+        <FilterSection />
+        <DisplaySection />
       </StyledWrapper>
     </>
   );
@@ -63,7 +41,10 @@ const NationalitiesApp = ({ countries, fetchData }) => {
 
 const mapStateToProps = state => {
   return {
-    countries: state.countries
+    countries: state.countries,
+    filterValue: state.filterValue,
+    filteredCountries: state.filteredCountries,
+    regions: state.regions
   };
 };
 
@@ -75,6 +56,16 @@ const mapDispatchToProps = dispatch => {
         .then(response => response.json())
         .then(data => dispatch({ type: "FETCH_DATA", data: [...data] }))
         .catch(err => console.log(err));
+    },
+    filterNations: (filterValue, countries) => {
+      if (filterValue === "All") {
+        dispatch({ type: "FILTER_COUNTRIES", data: countries });
+      } else {
+        const data =
+          countries &&
+          countries.filter(country => country.region === filterValue);
+        dispatch({ type: "FILTER_COUNTRIES", data: data });
+      }
     }
   };
 };

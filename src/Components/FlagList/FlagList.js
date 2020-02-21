@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 
 const StyledWrapper = styled.ul`
   padding: 0;
@@ -70,7 +71,7 @@ const Flag = styled.li`
   }
 `;
 
-const FlagList = ({ nations }) => {
+const FlagList = ({ filteredCountries: nations }) => {
   return (
     <StyledWrapper>
       {nations
@@ -87,4 +88,10 @@ const FlagList = ({ nations }) => {
   );
 };
 
-export default FlagList;
+const mapStateToProps = state => {
+  return {
+    filteredCountries: state.filteredCountries
+  };
+};
+
+export default connect(mapStateToProps)(FlagList);

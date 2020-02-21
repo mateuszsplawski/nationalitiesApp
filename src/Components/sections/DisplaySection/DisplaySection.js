@@ -4,10 +4,10 @@ import FlagList from "../../FlagList/FlagList";
 
 const StyledWrapper = styled.main``;
 
-const DisplaySection = ({ nations }) => {
+const DisplaySection = () => {
   return (
     <StyledWrapper>
-      <FlagList nations={nations} />
+      <FlagList />
     </StyledWrapper>
   );
 };

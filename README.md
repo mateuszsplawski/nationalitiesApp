@@ -1,6 +1,6 @@
 # nationalitiesApp
 
-My first application build with React, it display countries data provided by REST countries API. You can filter output by region.
+My first application build with React, it display countries data provided by REST countries API. You can filter output by region and also you can get more detailed info about each country by clicking on item.
 
 ## Getting Started
 

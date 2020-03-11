@@ -9,7 +9,7 @@ These instructions will get you a copy of the project up and running on your loc
 ### Live version
 
 My project is being build and deployed thanks to Netlify.
-[https://musing-beaver-57c09f.netlify.com/]
+[https://nationalitiesapp.netlify.com/]
 
 ### Installing
 

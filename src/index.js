@@ -1,21 +1,22 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import App from "./App";
 import { BrowserRouter as Router } from "./../node_modules/react-router-dom";
 import { Provider } from "react-redux";
-import { createStore } from "redux";
-import reducer from "./store/reducer";
-
-const store = createStore(
-  reducer,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-);
+import { theme } from "./theme/theme";
+import { GlobalStyles } from "./theme/GlobalStyles";
+import { ThemeProvider } from "styled-components";
+import NationalitiesApp from "./Components/NationalitiesApp";
+import { store } from "./store/store";
+import "./theme/fonts.css";
 
 ReactDOM.render(
   <Provider store={store}>
-    <Router>
-      <App />
-    </Router>
+    <GlobalStyles />
+    <ThemeProvider theme={theme}>
+      <Router>
+        <NationalitiesApp />
+      </Router>
+    </ThemeProvider>
   </Provider>,
   document.getElementById("root")
 );

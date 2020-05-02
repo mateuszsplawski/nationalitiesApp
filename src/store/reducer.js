@@ -1,34 +1,34 @@
-import * as action from "./actions";
+import * as actionTypes from "./actionTypes";
 
 const initialState = {
   countries: undefined,
   filterValue: "All",
   filteredCountries: undefined,
-  regions: undefined
+  regions: undefined,
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case "FETCH_DATA":
+    case actionTypes.FETCH_DATA:
       return {
         ...state,
-        countries: action.data
+        countries: action.data,
       };
-    case "SET_FILTER_VALUE":
+    case actionTypes.SET_FILTER_VALUE:
       return {
         ...state,
-        filterValue: action.value
+        filterValue: action.value,
       };
-    case "FILTER_COUNTRIES":
+    case actionTypes.FILTER_COUNTRIES:
       return {
         ...state,
-        filteredCountries: action.data
+        filteredCountries: action.data,
       };
 
-    case "SET_REGIONS":
+    case actionTypes.SET_REGIONS:
       return {
         ...state,
-        regions: action.data
+        regions: action.data,
       };
     default:
       return state;
